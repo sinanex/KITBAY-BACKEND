@@ -13,12 +13,20 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'kitbay/products',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-    transformation: [
-      { quality: 'auto', fetch_format: 'auto' }
-    ]
+    transformation: [{ quality: 'auto', fetch_format: 'auto' }]
+  },
+});
+
+const bannerStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'kitbay/banners',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+    transformation: [{ quality: 'auto', fetch_format: 'auto' }]
   },
 });
 
 const upload = multer({ storage: storage });
+const uploadBanner = multer({ storage: bannerStorage });
 
-module.exports = { cloudinary, upload };
+module.exports = { cloudinary, upload, uploadBanner };

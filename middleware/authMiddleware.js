@@ -9,7 +9,11 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.admin = decoded;
+    req.user = decoded;
+    
+    // Simple Admin Check Helper
+    req.isAdmin = (decoded.user === 'admin');
+    
     next();
   } catch (err) {
     res.status(401).json({ message: 'Token is not valid' });

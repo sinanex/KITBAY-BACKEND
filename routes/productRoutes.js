@@ -56,6 +56,21 @@ router.post('/', authMiddleware, upload.array('images', 5), async (req, res) => 
     res.status(400).json({ message: error.message });
   }
 });
+router.get('/search', async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q) {
+      return res.status(200).json([]);
+    }
+    const products = await Product.find({
+      name: { $regex: q, $options: 'i' }
+    }).limit(3);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find();
